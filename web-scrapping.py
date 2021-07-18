@@ -117,6 +117,6 @@ tags_table = tags_table[tags_table.apply(
     lambda row: 'Проч' not in row['tag'],
     axis=1
 )]
-tags_table.to_csv('tags_table_copy.csv', encoding='utf-8', index=False)
+tags_table.to_csv('tags_table.csv', encoding='utf-8', index=False)
 
-books_table.to_csv('books_table_copy.csv', encoding='utf-8', index=False)
+books_table.to_csv('books_table.csv', encoding='utf-8', index=False)
