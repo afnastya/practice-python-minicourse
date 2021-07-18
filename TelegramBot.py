@@ -6,7 +6,7 @@ from telebot import types
 import pandas as pd
 import requests
 
-telegram_token = '1949619233:AAEvJRQ3RXh35OJKKUJ-f6yOTN2JkP_BpgE'
+telegram_token = '{your_token}'
 
 bot = telebot.TeleBot(telegram_token)
 
@@ -221,8 +221,8 @@ def audio_book_choice(book_message):
 
 
 def make_audio(text):
-    ydx_token = 't1.9euelZqSipjLj5bLyomayMmMyJqaju3rnpWam42QzI6Tlc_PjYqSmsvNnszl8_ctCi94-e8cFl5N_N3z9204LHj57xwWXk38.hjSyOT-YRxyOqZoAzCJyZG3S1VaCWsd7eKIsRgUAwexInbxPI48699y4gWvbyM5GjSRf9PQg6HmCKvOzZ8UADQ'
-    ydx_folder_id = 'b1g1800t8244n6al6imn'
+    ydx_token = '{your_yandex_token}'
+    ydx_folder_id = '{your_yandex_folder}'
 
     url = 'https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize'
     headers = {
@@ -267,7 +267,7 @@ def cut_text_into_chunks(text):
 def search_cover(book):
     search_url = 'https://www.googleapis.com/customsearch/v1?'
 
-    google_key = 'AIzaSyAosN4MOEqJP965G_ueb_A0gMOqXSPb9Mk'
+    google_key = '{your_google_key}'
     cx = '9054c95a0ea83381f'
     q = "{0} {1} обложка книги".format(book['title'], book['author'])
 
