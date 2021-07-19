@@ -55,11 +55,13 @@ def say_hello(message):
 
 
 # следующие 2 функции - реализация меню
+# возвращает меню
 def create_menu():
     return create_reply_keyboard(
         [['Выбрать рандомную книгу', 'Прочесть краткое содержание']])
 
 
+# обрабатывает нажатия кнопок меню
 @bot.message_handler(func=lambda msg: True, content_types=['text'])
 def process_menu(message):
     if message.text == 'Выбрать рандомную книгу':
@@ -68,7 +70,8 @@ def process_menu(message):
         audio_summary(message.chat.id)
 
 
-# клавиатура с кнопками по списку списков надписей на кнопках
+# вспомогательная функция:
+# возвращает клавиатуру с кнопками по списку списков надписей на кнопках
 def create_reply_keyboard(button_rows):
     markup = types.ReplyKeyboardMarkup()
     for row in button_rows:
@@ -78,6 +81,7 @@ def create_reply_keyboard(button_rows):
 
 
 # следующие 5 функций - реализация "Выбрать рандомную книгу"
+# предлагает на выбор категории запроса: "нет", "по автору", "по тэгу"
 def random_choose(chat_id):
     category_markup = create_reply_keyboard([['нет', 'по автору', 'по тэгу']])
     msg = bot.send_message(
@@ -88,6 +92,7 @@ def random_choose(chat_id):
     bot.register_next_step_handler(msg, choose_category)
 
 
+# обрабатывает выбор категории
 def choose_category(category_message):
     if category_message.text == 'нет':
         present_choice_msg(category_message.chat.id)
@@ -112,6 +117,7 @@ def choose_category(category_message):
         )
 
 
+# обрабатывает выбор книги по автору
 def choose_author(author_message):
     book = rc(author=author_message.text)
     if book is None:
@@ -127,12 +133,15 @@ def choose_author(author_message):
         print_book(author_message.chat.id, book)
 
 
+# обрабатывает выбор книги по тэгу
 def choose_tag(tag_message):
     book = rc(tag=tag_message.text)
     present_choice_msg(tag_message.chat.id)
     print_book(tag_message.chat.id, book)
 
 
+# просто выводит сообщение о том, что книга подобрана, и закрывает клавиатуру
+# вынесено в отдельную функцию, чтобы не было копипасты
 def present_choice_msg(chat_id):
     return bot.send_message(
         chat_id,
@@ -142,6 +151,7 @@ def present_choice_msg(chat_id):
 
 
 # следующие 5 функций - реализация "Прочесть краткое содержание"
+# предлагает на выбор 2 категории запроса: "рандомная" или "конкретная" книга
 def audio_summary(chat_id):
     category_markup = create_reply_keyboard(
         [['хочу рандомную', 'хочу конкретную']])
@@ -153,6 +163,7 @@ def audio_summary(chat_id):
     bot.register_next_step_handler(msg, audio_category)
 
 
+# обрабатывает эти 2 категории запроса
 def audio_category(category_message):
     chat_id = category_message.chat.id
     if category_message.text == "хочу рандомную":
@@ -187,6 +198,7 @@ def audio_category(category_message):
         )
 
 
+# обрабатывает запрос на конкретную книгу
 def audio_book_choice(book_message):
     chat_id = book_message.chat.id
     result_dataframe = rc.data[rc.data.apply(
@@ -222,6 +234,7 @@ def audio_book_choice(book_message):
                 requests.post(url, files=file)
 
 
+# синтезирует все куски аудио с помощью Yandex SpeechKit и сохраняет в файлах
 def make_audio(text):
     ydx_token = '{your_yandex_token}'
     ydx_folder_id = 'b1g1800t8244n6al6imn'
