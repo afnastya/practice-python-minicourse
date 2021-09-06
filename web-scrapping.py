@@ -30,7 +30,7 @@ for author in authors:
         author_codes.append(author_code)
         authors_codes2names[author_code] = author.text
 
-# блок c скрапингом сайта может работать до 5 - 10 минут
+# блок cо скрапингом сайта может работать до 5 - 10 минут
 main_tags = []
 book_titles = []
 book_authors = []
