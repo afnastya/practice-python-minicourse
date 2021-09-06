@@ -237,7 +237,7 @@ def audio_book_choice(book_message):
 # синтезирует все куски аудио с помощью Yandex SpeechKit и сохраняет в файлах
 def make_audio(text):
     ydx_token = '{your_yandex_token}'
-    ydx_folder_id = 'b1g1800t8244n6al6imn'
+    ydx_folder_id = '{your_yandex_folder_id}'
 
     url = 'https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize'
     headers = {
